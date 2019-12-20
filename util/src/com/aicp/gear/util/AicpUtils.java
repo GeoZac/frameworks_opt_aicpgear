@@ -31,6 +31,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.input.InputManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
@@ -405,6 +406,15 @@ public class AicpUtils {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         float px = 24 * (metrics.densityDpi / 160f);
         return result > Math.round(px);
+    }
+
+    // Check if device is connected to the internet
+    public static boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        return wifi.isConnected() || mobile.isConnected();
     }
 
     // Check if device supports lockscreen blur
