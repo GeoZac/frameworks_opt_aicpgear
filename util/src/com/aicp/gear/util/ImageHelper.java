@@ -162,7 +162,7 @@ public class ImageHelper {
         return bitmap;
     }
 
-    private static Bitmap toGrayscale(Bitmap bmpOriginal) {
+    public static Bitmap toGrayscale(Bitmap bmpOriginal) {
         int width, height;
         height = bmpOriginal.getHeight();
         width = bmpOriginal.getWidth();
@@ -184,6 +184,18 @@ public class ImageHelper {
         paint.setColorFilter(f);
         c.drawBitmap(bmpOriginal, rect, rect, paint);
         return bmpGrayscale;
+    }
+
+    public static Bitmap getGrayscaleBlurredImage(Context context, Bitmap image) {
+        return getGrayscaleBlurredImage(context, image, 3.5f);
+    }
+
+    public static Bitmap getGrayscaleBlurredImage(Context context, Bitmap image, float radius) {
+        Bitmap finalImage = Bitmap.createBitmap(
+                image.getWidth(), image.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        finalImage = toGrayscale(getBlurredImage(context, image, radius));
+        return finalImage;
     }
 
     public static Drawable resize(Context context, Drawable image, int size) {
